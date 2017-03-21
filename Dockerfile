@@ -10,7 +10,7 @@ ENV LANG='en_US.UTF-8' \
 ### Install Application
 RUN apk upgrade --no-cache && \
     apk add --no-cache --virtual=run-deps \
-      fetchmail ca-certificates procmail msmtp && \
+      fetchmail ca-certificates procmail msmtp su-exec && \
     rm -rf /tmp/* \
            /var/cache/apk/*  \
            /var/tmp/*
