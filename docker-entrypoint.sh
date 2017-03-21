@@ -83,7 +83,7 @@ if [ "$1" = 'fetchmail' ]; then
     fi
     if [ -d /config ]; then
       /bin/chmod 0750 /config /config/logs
-      /bin/chmod 0600 /config/{.fetchmailrc,.procmailrc,.msmtprc}
+      /bin/chmod 0600 /config/.fetchmailrc /config/.procmailrc /config/.msmtprc
       /bin/chown -R "${MYUSER}:${MYUSER}" /config
     fi
     su-exec "${MYUSER}"  fetchmail -f /config/.fetchmailrc
