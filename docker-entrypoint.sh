@@ -92,7 +92,7 @@ if [ "$1" = 'fetchmail' ]; then
     if [ $DEBUG -eq 0 ]; then
       DEBUGARGS=""
     fi
-    su-exec "${MYUSER}"  fetchmail "${DEBUGARGS} -f /config/.fetchmailrc
+    su-exec "${MYUSER}"  fetchmail "${DEBUGARGS}" -f /config/.fetchmailrc
 fi
 
 exec "$@"
