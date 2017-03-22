@@ -47,7 +47,7 @@ ConfigureUser () {
     OLDUID=$(/usr/bin/id -u "${MYUSER}")
     OLDGID=$(/usr/bin/id -g "${MYUSER}")
     if [ "${DOCKUID}" != "${OLDUID}" ]; then
-      OLDHOME=$(/bin/echo "~${MYUSER}")
+      OLDHOME=$(/bin/grep "$MYUSER" /etc/passwd | /usr/bin/awk -F: '{print $6}')
       /usr/sbin/deluser "${MYUSER}"
       /usr/bin/logger "Deleted user ${MYUSER}"
     fi
