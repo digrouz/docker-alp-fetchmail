@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-set -x
 
 MYUSER="fetchmail"
 MYGID="10016"
