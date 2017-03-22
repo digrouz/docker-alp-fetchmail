@@ -3,6 +3,7 @@
 MYUSER="fetchmail"
 MYGID="10016"
 MYUID="10016"
+DEBUG=0
 OS=""
 
 DectectOS(){
@@ -87,7 +88,11 @@ if [ "$1" = 'fetchmail' ]; then
       /bin/ln -s /config/.procmailrc /var/lib/fetchmail/.procmailrc
       /bin/chown -R "${MYUSER}:${MYUSER}" /config
     fi
-    su-exec "${MYUSER}"  fetchmail -f /config/.fetchmailrc
+    DEBUGARGS="-v -d0"
+    if [ $DEBUG -eq 0 ]; then
+      DEBUGARGS=""
+    fi
+    su-exec "${MYUSER}"  fetchmail "${DEBUGARGS} -f /config/.fetchmailrc
 fi
 
 exec "$@"
