@@ -85,10 +85,7 @@ if [ "$1" = 'fetchmail' ]; then
     if [ -d /config ]; then
       /bin/chmod 0750 /config /config/logs
       /bin/chmod 0600 /config/.fetchmailrc /config/.procmailrc /config/.msmtprc
-      if [ ! -h /var/lib/fetchmail/.procmailrc ]; then 
-        /bin/rm -rf /var/lib/fetchmail/.procmailrc
-        /bin/ln -s /config/.procmailrc /var/lib/fetchmail/.procmailrc
-      fi
+      /bin/cp -p /config/.procmailrc /var/lib/fetchmail/.procmailrc
       /bin/chown -R "${MYUSER}:${MYUSER}" /config
     fi
     if [ -n "$DEBUG" ]; then
