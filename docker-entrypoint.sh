@@ -96,7 +96,8 @@ if [ "$1" = 'fetchmail' ]; then
     else
       DEBUGARGS=""
     fi
-    su-exec "${MYUSER}" "/usr/bin/fetchmail ${DEBUGARGS} -f /config/.fetchmailrc"
+    su-exec "${MYUSER}" /usr/bin/fetchmail "${DEBUGARGS}" -f /config/.fetchmailrc
+else
+  exec "$@"
 fi
 
-exec "$@"
