@@ -92,7 +92,7 @@ if [ "$1" = 'fetchmail' ]; then
       /bin/chown -R "${MYUSER}:${MYUSER}" /config
     fi
     if [ -n "$DEBUG" ]; then
-      DEBUGARGS="-v -d0"
+      DEBUGARGS="-v"
     else
       DEBUGARGS=""
     fi
