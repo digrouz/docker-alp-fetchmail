@@ -4,7 +4,6 @@ set -x
 MYUSER="fetchmail"
 MYGID="10016"
 MYUID="10016"
-DEBUG=0
 OS=""
 
 DectectOS(){
@@ -92,8 +91,9 @@ if [ "$1" = 'fetchmail' ]; then
       fi
       /bin/chown -R "${MYUSER}:${MYUSER}" /config
     fi
-    DEBUGARGS="-v -d0"
-    if [ $DEBUG -eq 0 ]; then
+    if [ -n "$DEBUG" ]; then
+      DEBUGARGS="-v -d0"
+    else
       DEBUGARGS=""
     fi
     su-exec "${MYUSER}" /usr/bin/fetchmail "${DEBUGARGS}" -f /config/.fetchmailrc
