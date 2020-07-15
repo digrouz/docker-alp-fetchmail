@@ -7,7 +7,8 @@ ENV LANG='en_US.UTF-8' \
     TERM='xterm' \
     APPUSER='fetchmail' \
     APPUID='10016' \
-    APPGID='10016' 
+    APPGID='10016' \
+    PROCMAIL_VERSION='3.22' 
 
 # Copy config files
 COPY root/ /
@@ -21,6 +22,15 @@ RUN set -x && \
     MYGID=${APPGID} && \
     ConfigureUser && \
     apk --no-cache upgrade && \ 
+    apk add --no-cache --virtual=build-deps \
+      curl \
+      gcc \
+      git \
+      make \
+    && \
+    mkdir /tmp && \
+    curl -SsL http://www.ring.gr.jp/archives/net/mail/procmail/procmail-$PROCMAIL_VERSION.tar.gz -o /tmp/procmail.tar.gz && \
+    tar xzf procmail.tar.gz && \ 
     apk add --no-cache --virtual=run-deps \
       fetchmail \
       ca-certificates \
