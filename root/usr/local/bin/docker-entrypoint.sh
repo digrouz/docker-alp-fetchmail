@@ -30,7 +30,7 @@ if [ "$1" = 'fetchmail' ]; then
   fi
   RunDropletEntrypoint
   DockLog "Starting app: ${@}"
-  exec su-exec "${MYUSER}" fetchmail "${DEBUGARGS}" -f /config/.fetchmailrc
+  su-exec "${MYUSER}" fetchmail "${DEBUGARGS}" -f /config/.fetchmailrc
 else
   DockLog "Starting command: ${@}"
   exec "$@"
