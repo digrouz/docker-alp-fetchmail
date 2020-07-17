@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.12
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
 ### Environment variables
@@ -27,14 +27,26 @@ RUN set -x && \
       gcc \
       git \
       make \
+      musl-dev \
+      patch \
     && \
-    mkdir /tmp && \
     curl -SsL http://www.ring.gr.jp/archives/net/mail/procmail/procmail-$PROCMAIL_VERSION.tar.gz -o /tmp/procmail.tar.gz && \
+    cd /tmp && \
     tar xzf procmail.tar.gz && \ 
+    cd procmail-$PROCMAIL_VERSION && \
+    for PATCH in $(ls -1 /tmp/procmail-patches); do patch -Np1 -i /tmp/procmail-patches/$PATCH; done && \
+    ls -l && \
+    make BASENAME=/usr MANDIR=/usr/share/man install && \
+    install -D -m644 Artistic /usr/share/licenses/procmail/LICENSE && \
+    install -d -m755 /usr/share/doc/procmail/examples && \
+    install -m644 examples/* /usr/share/doc/procmail/examples/ && \
+    apk del --no-cache --purge \
+      build-deps  \
+    && \
     apk add --no-cache --virtual=run-deps \
-      fetchmail \
+      bash \
       ca-certificates \
-      procmail \
+      fetchmail \
       msmtp \
       su-exec \
     && \
