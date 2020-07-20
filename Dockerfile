@@ -29,7 +29,10 @@ RUN set -x && \
       make \
       musl-dev \
       patch \
+      shadow \
     && \
+    usermod -s /sbin/nologin -d /var/lib/fetchmail fetchmail && \
+    rm -rf /var/lib/fetchmail && \
     curl -SsL http://www.ring.gr.jp/archives/net/mail/procmail/procmail-$PROCMAIL_VERSION.tar.gz -o /tmp/procmail.tar.gz && \
     cd /tmp && \
     tar xzf procmail.tar.gz && \ 
