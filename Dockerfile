@@ -38,7 +38,6 @@ RUN set -x && \
     tar xzf procmail.tar.gz && \ 
     cd procmail-$PROCMAIL_VERSION && \
     for PATCH in $(ls -1 /tmp/procmail-patches); do patch -Np1 -i /tmp/procmail-patches/$PATCH; done && \
-    ls -l && \
     make BASENAME=/usr MANDIR=/usr/share/man install && \
     install -D -m644 Artistic /usr/share/licenses/procmail/LICENSE && \
     install -d -m755 /usr/share/doc/procmail/examples && \
