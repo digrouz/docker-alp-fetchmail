@@ -8,7 +8,7 @@ ENV LANG='en_US.UTF-8' \
     APPUSER='fetchmail' \
     APPUID='10016' \
     APPGID='10016' \
-    PROCMAIL_VERSION='3.22' 
+    PROCMAIL_VERSION='3.24' 
 
 # Copy config files
 COPY root/ /
@@ -30,14 +30,15 @@ RUN set -x && \
       musl-dev \
       patch \
       shadow \
+      unzip \
     && \
     usermod -s /sbin/nologin -d /var/lib/fetchmail fetchmail && \
     rm -rf /var/lib/fetchmail && \
-    curl -SsL http://www.ring.gr.jp/archives/net/mail/procmail/procmail-$PROCMAIL_VERSION.tar.gz -o /tmp/procmail.tar.gz && \
+    curl -SsL https://github.com/BuGlessRB/procmail/archive/refs/heads/master.zip -o /tmp/procmail.zip && \
     cd /tmp && \
-    tar xzf procmail.tar.gz && \ 
-    cd procmail-$PROCMAIL_VERSION && \
-    for PATCH in $(ls -1 /tmp/procmail-patches); do patch -Np1 -i /tmp/procmail-patches/$PATCH; done && \
+    unzip procmail.zip && \ 
+    cd procmail-master && \
+    #for PATCH in $(ls -1 /tmp/procmail-patches); do patch -Np1 -i /tmp/procmail-patches/$PATCH; done && \
     make BASENAME=/usr MANDIR=/usr/share/man install && \
     install -D -m644 Artistic /usr/share/licenses/procmail/LICENSE && \
     install -d -m755 /usr/share/doc/procmail/examples && \
