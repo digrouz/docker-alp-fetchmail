@@ -1,2 +1,2 @@
-# docker-alp-fetchmail
-Install fetchmail, procmail and msmtp into an Alpine Linux Container
+# docker-fetchmail
+Install fetchmail, procmail and msmtp into a Linux Container
