@@ -1,4 +1,9 @@
 FROM alpine:3.20.3
+
+ARG FETCHMAIL_VERSION='3.24'
+ARG MSMTP_VERSION='3.24'
+ARG PROCMAIL_VERSION='3.24' 
+
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
 ### Environment variables
@@ -8,7 +13,9 @@ ENV LANG='en_US.UTF-8' \
     APPUSER='fetchmail' \
     APPUID='10016' \
     APPGID='10016' \
-    PROCMAIL_VERSION='3.24' 
+    FETCHMAIL_VERSION="${FETCHMAIL_VERSION}" \
+    MSMTP_VERSION="${MSMTP_VERSION}"  \
+    PROCMAIL_VERSION="${PROCMAIL_VERSION}" 
 
 # Copy config files
 COPY root/ /
@@ -34,7 +41,7 @@ RUN set -x && \
     && \
     usermod -s /sbin/nologin -d /var/lib/fetchmail fetchmail && \
     rm -rf /var/lib/fetchmail && \
-    curl -SsL https://github.com/BuGlessRB/procmail/archive/refs/heads/master.zip -o /tmp/procmail.zip && \
+    curl -SsL https://github.com/BuGlessRB/procmail/archive/refs/tags/v${PROCMAIL_VERSION}.zip -o /tmp/procmail.zip && \
     cd /tmp && \
     unzip procmail.zip && \ 
     cd procmail-master && \
@@ -49,8 +56,8 @@ RUN set -x && \
     apk add --no-cache --virtual=run-deps \
       bash \
       ca-certificates \
-      fetchmail \
-      msmtp \
+      fetchmail=${FETCHMAIL_VERSION} \
+      msmtp=${MSMTP_VERSION} \
       su-exec \
     && \
     mkdir /docker-entrypoint.d && \
