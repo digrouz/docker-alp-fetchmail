@@ -1,0 +1,78 @@
+name: dockerhub-workflow
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+
+jobs:
+  dockerHubImages:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@main
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@master
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@master
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@master
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push tag fetchmail:latest
+        uses: docker/build-push-action@master
+        with:
+          context: .
+          file: Dockerfile_alpine
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fetchmail:latest
+      -
+        name: Build and push tag fetchmail:alpine
+        uses: docker/build-push-action@master
+        with:
+          context: .
+          file: Dockerfile_alpine
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fetchmail:alpine
+      -
+        name: Build and push tag docker-alp-fetchmail:latest
+        uses: docker/build-push-action@master
+        with:
+          context: .
+          file: Dockerfile_alpine
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker-alp-fetchmail:latest
+      -
+        name: Build and push tag docker-alp-fetchmail:alpine
+        uses: docker/build-push-action@master
+        with:
+          context: .
+          file: Dockerfile_alpine
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker-alp-fetchmail:alpine
+  dockerHubDescription:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Docker Hub Description on {{ secrets.DOCKERHUB_USERNAME }}/fetchmail
+      uses: peter-evans/dockerhub-description@main
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        repository: ${{ secrets.DOCKERHUB_USERNAME }}/fetchmail
+        short-description: ${{ github.event.repository.description }}
+    - name: Docker Hub Description on {{ secrets.DOCKERHUB_USERNAME }}/docker-alp-fetchmail
+      uses: peter-evans/dockerhub-description@main
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        repository: ${{ secrets.DOCKERHUB_USERNAME }}/docker-alp-fetchmail
+        short-description: ${{ github.event.repository.description }}
