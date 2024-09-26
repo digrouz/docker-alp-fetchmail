@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x
+
 PACKAGE_NAME="msmtp"; 
 PACKAGE_ARCH="x86_64"; 
 PACKAGE_REPO="community";

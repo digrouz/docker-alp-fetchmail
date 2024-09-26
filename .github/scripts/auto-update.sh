@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 PACKAGE_NAME="fetchmail"; 
 PACKAGE_ARCH="x86_64"; 
 PACKAGE_REPO="community";
